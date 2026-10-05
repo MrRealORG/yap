@@ -1,16 +1,43 @@
 :root {
   --color-primary: #bced09;
   --color-on-primary: #111113;
+  --color-primary-soft: rgba(188, 237, 9, 0.24);
+  --color-primary-strong: #5a7300;
 
-  --color-bg: #fafafa;
-  --color-text: #111113;
-  --color-text-muted: #71717a;
+  --titlebar-height: 36px;
 
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-window: #ececee;
+  --color-surface: #fbfbfc;
+  --color-card: #ffffff;
+  --color-text: #1d1d1f;
+  --color-text-secondary: #3a3a3e;
+  --color-text-muted: #86868b;
+  --color-separator: rgba(0, 0, 0, 0.08);
+  --color-hover: rgba(0, 0, 0, 0.05);
+  --color-control-off: rgba(0, 0, 0, 0.14);
+  --color-field: #ffffff;
+  --color-field-border: rgba(0, 0, 0, 0.1);
+  --color-field-border-hover: rgba(0, 0, 0, 0.18);
+  --color-key: rgba(0, 0, 0, 0.06);
+  --color-switch-thumb: #ffffff;
+  /* Windows-convention close button, same in both themes */
+  --color-window-close: #c42b1c;
+  --color-window-close-pressed: #b22a1b;
+  --color-on-window-close: #ffffff;
+
+  --sidebar-bg: rgba(246, 246, 248, 0.62);
+  --glow-primary: rgba(188, 237, 9, 0.35);
+  --glow-secondary: rgba(120, 140, 255, 0.18);
+
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI",
+    Inter, system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  /* Native popups (e.g. select menus) follow the system theme */
+  color-scheme: light dark;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: var(--color-window);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -19,9 +46,53 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0e0e10;
-    --color-text: #fafafa;
-    --color-text-muted: #a1a1aa;
+    --color-window: #1c1c1e;
+    --color-surface: #1e1e20;
+    --color-card: #262629;
+    --color-text: #f5f5f7;
+    --color-text-secondary: #d1d1d6;
+    --color-text-muted: #8e8e93;
+    --color-primary-soft: rgba(188, 237, 9, 0.14);
+    --color-primary-strong: #bced09;
+    --color-separator: rgba(255, 255, 255, 0.08);
+    --color-hover: rgba(255, 255, 255, 0.06);
+    --color-control-off: rgba(255, 255, 255, 0.16);
+    --color-field: rgba(255, 255, 255, 0.05);
+    --color-field-border: rgba(255, 255, 255, 0.1);
+    --color-field-border-hover: rgba(255, 255, 255, 0.18);
+    --color-key: rgba(255, 255, 255, 0.1);
+
+    --sidebar-bg: rgba(38, 38, 42, 0.6);
+    --glow-primary: rgba(188, 237, 9, 0.16);
+    --glow-secondary: rgba(120, 140, 255, 0.12);
+  }
+}
+
+/*
+ * Native translucency (set by lib/platform.ts inside the Tauri window).
+ * The OS blurs the desktop behind the window, so the page stays transparent
+ * and each area only adds a light tint on top. The content area is tinted a
+ * little lighter than the sidebar so the two still read as separate panes.
+ */
+:root[data-vibrancy="native"] {
+  --color-window: transparent;
+  --color-surface: rgba(255, 255, 255, 0.42);
+  --color-card: rgba(255, 255, 255, 0.55);
+  --color-field: rgba(255, 255, 255, 0.65);
+  --color-field-border: rgba(0, 0, 0, 0.08);
+  --color-field-border-hover: rgba(0, 0, 0, 0.16);
+  --sidebar-bg: rgba(240, 240, 243, 0.38);
+}
+
+/* Every token set above needs a dark counterpart here, or it leaks into dark mode */
+@media (prefers-color-scheme: dark) {
+  :root[data-vibrancy="native"] {
+    --color-surface: rgba(28, 28, 30, 0.42);
+    --color-card: rgba(255, 255, 255, 0.05);
+    --color-field: rgba(0, 0, 0, 0.22);
+    --color-field-border: rgba(255, 255, 255, 0.09);
+    --color-field-border-hover: rgba(255, 255, 255, 0.18);
+    --sidebar-bg: rgba(20, 20, 22, 0.38);
   }
 }
 
@@ -31,6 +102,15 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  overflow: hidden;
+  /* Desktop app feel: no text selection on UI chrome */
+  user-select: none;
 }

@@ -1,0 +1,54 @@
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-window);
+  isolation: isolate;
+}
+
+/* Soft color behind the translucent sidebar so the frosted effect has something to blur */
+.app-shell::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -120px;
+  left: -140px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-primary), transparent 70%);
+  pointer-events: none;
+}
+
+.app-shell::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -160px;
+  left: -60px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-secondary), transparent 70%);
+  pointer-events: none;
+}
+
+/* The real desktop shows through in the native window, so the fake glow isn't needed */
+:root[data-vibrancy="native"] .app-shell::before,
+:root[data-vibrancy="native"] .app-shell::after {
+  display: none;
+}
+
+.app-shell__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-surface);
+}
+
+.app-shell__content {
+  flex: 1;
+  overflow-y: auto;
+}

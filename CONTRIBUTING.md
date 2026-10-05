@@ -60,6 +60,7 @@ For anything beyond a small fix, please open an issue before starting work so we
 
 ## Code style
 
+- **UI and design:** follow [DESIGN.md](DESIGN.md) for colors, typography, spacing, icons, components, and copy. AI coding tools pick this up automatically through [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md).
 - **TypeScript/React:** functional components, named exports for feature components, and the `@/` import alias for anything under `src/`.
 - **Rust:** formatted with `rustfmt` and free of `clippy` warnings.
 - Formatting basics (indentation, line endings) are defined in [.editorconfig](.editorconfig).

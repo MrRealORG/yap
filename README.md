@@ -35,11 +35,18 @@ yap/
 ├── .github/                Issue/PR templates, CI workflow, Dependabot
 ├── public/                 Static assets served as-is
 ├── src/                    React frontend
-│   ├── app/                App root and top-level composition
+│   ├── app/                App root and sidebar navigation config
 │   ├── assets/             Images, fonts, and other imported assets
 │   ├── components/         Shared, reusable UI components
+│   │   ├── layout/         App shell (sidebar + content)
+│   │   ├── page/           Page title + body wrapper
+│   │   ├── section-placeholder/  Temporary "coming soon" page per section
+│   │   ├── settings/       Settings groups and rows
+│   │   ├── sidebar/        macOS-style navigation sidebar
+│   │   ├── titlebar/       Custom title bar and window controls
+│   │   └── ui/             Form controls (Switch, Select, ShortcutInput)
 │   ├── features/           Feature modules (one folder per feature)
-│   │   └── welcome/
+│   │   └── general/        General settings page
 │   ├── hooks/              Shared React hooks
 │   ├── lib/                Utilities and Tauri API wrappers
 │   ├── styles/             Global styles and design tokens
@@ -59,10 +66,12 @@ Imports inside `src/` can use the `@/` alias, e.g. `import App from "@/app/App"`
 
 ## Contributing
 
-Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) and our [code of conduct](CODE_OF_CONDUCT.md) before opening an issue or pull request.
+Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) and our [code of conduct](CODE_OF_CONDUCT.md) before opening an issue or pull request. UI changes must follow the [design system](DESIGN.md).
 
 To report a security vulnerability, see [SECURITY.md](SECURITY.md).
 
 ## License
 
 Yap is licensed under the [MIT License](LICENSE).
+
+Icons are from [Devigner Icons](https://github.com/devigner-ui/icons) (artwork under CC BY 4.0). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for full credits.

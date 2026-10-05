@@ -1,0 +1,27 @@
+.page {
+  max-width: 680px;
+  padding: 4px 32px 32px;
+}
+
+.page__header {
+  margin-bottom: 24px;
+}
+
+.page__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.page__description {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
