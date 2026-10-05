@@ -20,6 +20,13 @@
   --color-field-border-hover: rgba(0, 0, 0, 0.18);
   --color-key: rgba(0, 0, 0, 0.06);
   --color-switch-thumb: #ffffff;
+  /* Keyboard focus is neutral, never lime */
+  --color-focus: rgba(0, 0, 0, 0.4);
+  --color-focus-ring: rgba(0, 0, 0, 0.08);
+  /* Floating menus (dropdowns) stay opaque, even in glass mode */
+  --color-menu: #ffffff;
+  --color-menu-border: rgba(0, 0, 0, 0.08);
+  --shadow-menu: 0 10px 30px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
   /* Windows-convention close button, same in both themes */
   --color-window-close: #c42b1c;
   --color-window-close-pressed: #b22a1b;
@@ -61,6 +68,11 @@
     --color-field-border: rgba(255, 255, 255, 0.1);
     --color-field-border-hover: rgba(255, 255, 255, 0.18);
     --color-key: rgba(255, 255, 255, 0.1);
+    --color-focus: rgba(255, 255, 255, 0.5);
+    --color-focus-ring: rgba(255, 255, 255, 0.1);
+    --color-menu: #2b2b2f;
+    --color-menu-border: rgba(255, 255, 255, 0.1);
+    --shadow-menu: 0 10px 30px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
 
     --sidebar-bg: rgba(38, 38, 42, 0.6);
     --glow-primary: rgba(188, 237, 9, 0.16);

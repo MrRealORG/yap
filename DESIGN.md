@@ -7,7 +7,7 @@ This is the single source of truth for how Yap looks and feels. Every UI change,
 1. **Flat and soft.** No gradients, gloss, bevels, or heavy shadows. Depth comes from soft tints, hairline borders, and rounded corners.
 2. **Minimal.** Every element earns its place. Prefer whitespace over dividers, and fewer controls over more.
 3. **Native-feeling.** Yap should feel like a well-made macOS app on every platform: system font, translucent glass window, arrow cursor, quiet motion.
-4. **One accent.** Lime (`#bced09`) is the only brand color. Use it sparingly to show what's selected or on.
+4. **One accent.** Lime (`#bced09`) is the only brand color. Use it sparingly to show what's selected or on, and only as a fill or icon color. Never as an outline, border, or focus ring.
 5. **Readable on any wallpaper.** The window is see-through, so every surface must stay legible over bright and busy backgrounds, in light and dark mode.
 
 ## Color
@@ -20,10 +20,12 @@ All colors live as CSS custom properties in [`src/styles/global.css`](src/styles
 |---|---|---|---|
 | `--color-primary` | `#bced09` | `#bced09` | Fills only: switch "on", logo tile |
 | `--color-on-primary` | `#111113` | `#111113` | Text/icons placed on a lime fill |
-| `--color-primary-soft` | lime at 24% | lime at 14% | Selected-item background, focus ring |
-| `--color-primary-strong` | `#5a7300` | `#bced09` | Lime-colored icons/text and focus borders |
+| `--color-primary-soft` | lime at 24% | lime at 14% | Selected sidebar item background |
+| `--color-primary-strong` | `#5a7300` | `#bced09` | Lime-colored icons (e.g. the selected sidebar icon) |
 
-> **Rule:** never put `--color-primary` text or icons on a light background. It's unreadable. Use `--color-primary-strong`, which becomes olive in light mode and lime in dark mode.
+> **Rules:**
+> - Never put `--color-primary` text or icons on a light background. It's unreadable. Use `--color-primary-strong`, which becomes olive in light mode and lime in dark mode.
+> - **No lime outlines, borders, or focus rings.** Focus is always neutral (see [Interaction](#interaction-and-accessibility)).
 
 ### Neutrals
 
@@ -41,6 +43,8 @@ All colors live as CSS custom properties in [`src/styles/global.css`](src/styles
 | `--color-field` / `--color-field-border` / `--color-field-border-hover` | Inputs and selects |
 | `--color-key` | Keycap chips in the shortcut recorder |
 | `--color-switch-thumb` | Switch knob |
+| `--color-focus` / `--color-focus-ring` | Neutral keyboard-focus outline and field ring |
+| `--color-menu` / `--color-menu-border` / `--shadow-menu` | Dropdown menus (always opaque, even in glass mode) |
 | `--color-window-close` / `-pressed` / `--color-on-window-close` | Windows close button hover (red by platform convention) |
 
 ## Glass (window translucency)
@@ -92,14 +96,16 @@ Spacing should come from this scale: **2, 4, 6, 8, 10, 12, 16, 20, 24, 32**.
 |---|---|
 | 6px | Keycaps |
 | 7px | Logo tile |
+| 8px | Menu options |
 | 10px | Inputs, selects, sidebar items |
+| 12px | Dropdown menus |
 | 14px | Cards and empty states |
 | 999px | Switch track (pill) |
 
 ## Borders, shadows, and depth
 
 - Separate things with **1px `--color-separator` hairlines**, or just whitespace.
-- **No drop shadows** on cards, rows, or buttons. The only shadow in the app is the small one on the switch thumb.
+- **No drop shadows** on cards, rows, or buttons. Only two things get a shadow: the switch thumb, and floating menus (`--shadow-menu`), which need to read as sitting above the page.
 - **No gradients or inner highlights.** The sidebar used to have glossy icon tiles and gradient pills, and they read as dated. Don't bring them back. The one exception is the soft radial glow behind the sidebar in browser mode (`--glow-*`), which stands in for the desktop wallpaper and disappears in the real glass window.
 
 ## Icons
@@ -132,9 +138,10 @@ Icons next to a visible label are decorative. The library hides them from screen
 
 - **Cursor:** `default` (arrow) on all controls, like a native app. Don't use `pointer`.
 - **Text selection:** off for UI chrome (`user-select: none` on `body`). Turn it back on for content people may copy, such as transcripts.
-- **Focus:** keyboard focus must be visible. Use a 2px outline or a 3px `--color-primary-soft` ring with a `--color-primary-strong` border.
+- **Focus:** keyboard focus must be visible but **neutral, never lime**. Buttons, switches, and nav items get a 2px `--color-focus` outline. Fields get a `--color-field-border-hover` border plus a 3px `--color-focus-ring` ring. Use `:focus-visible`, so nothing shows after a mouse click.
 - **Hover:** `--color-hover` background. Selected items keep their selected style on hover.
-- **Semantics:** use real `<button>`, `<select>`, `role="switch"` + `aria-checked`, and `aria-current="page"` for the active nav item. Every control must be labelled. `SettingRow` passes `aria-labelledby` / `aria-describedby` to its control for you.
+- **Dropdowns:** use the `Select` component, never a native `<select>`. Native popups are drawn by the OS, ignore our colors, and were unreadable in dark mode on Windows.
+- **Semantics:** use real `<button>` elements, `role="switch"` + `aria-checked`, and `aria-current="page"` for the active nav item. Every control must be labelled. `SettingRow` passes `aria-labelledby` / `aria-describedby` to its control for you.
 - **Contrast:** text must stay readable over any wallpaper. Check glass mode in both themes.
 
 ## Components
@@ -150,7 +157,7 @@ Reuse these before building anything new. They live in [`src/components/`](src/c
 | `SettingsGroup` | `settings/` | A titled card grouping related settings |
 | `SettingRow` | `settings/` | One setting: title + description on the left, control on the right, optional hint |
 | `Switch` | `ui/` | On/off settings |
-| `Select` | `ui/` | Choosing one option from a list |
+| `Select` | `ui/` | Choosing one option from a list (custom menu with full keyboard support) |
 | `ShortcutInput` | `ui/` | Recording a keyboard shortcut |
 
 ### Building a settings page
@@ -184,7 +191,8 @@ Reuse these before building anything new. They live in [`src/components/`](src/c
 |---|---|
 | Use tokens from `global.css` | Hard-code hex values in components |
 | Use flat fills and hairline borders | Add gradients, gloss, or drop shadows |
-| Use lime for "selected" and "on" | Use lime for body text or decoration |
+| Use lime for "selected" and "on" | Use lime for text, outlines, borders, or focus rings |
+| Use the `Select` component | Use a native `<select>` |
 | Use outline Devigner icons, imported per icon | Mix icon sets or import the package root |
 | Reuse `Page`, `SettingsGroup`, `SettingRow`, `ui/` controls | Build one-off cards or controls for a single page |
 | Check light, dark, and glass mode | Only check the theme you happen to use |

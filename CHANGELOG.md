@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Dropdown options were unreadable in dark mode on Windows; dropdowns now use a custom menu
+- Removed the lime focus outline from fields; keyboard focus is now neutral
+
 ### Added
 
 - Initial Tauri 2 + React + TypeScript project setup

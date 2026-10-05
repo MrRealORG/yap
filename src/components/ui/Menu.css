@@ -1,0 +1,61 @@
+/* Floating dropdown menu, rendered in a portal at the end of <body> */
+.menu {
+  position: fixed;
+  z-index: 1000;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid var(--color-menu-border);
+  border-radius: 12px;
+  background: var(--color-menu);
+  box-shadow: var(--shadow-menu);
+  color: var(--color-text);
+  font-size: 13px;
+  list-style: none;
+  outline: none;
+  animation: menu-in 120ms ease;
+}
+
+.menu__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  cursor: default;
+}
+
+.menu__option--active {
+  background: var(--color-hover);
+}
+
+.menu__option[aria-selected="true"] {
+  font-weight: 500;
+}
+
+.menu__label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.menu__check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    animation: none;
+  }
+}
